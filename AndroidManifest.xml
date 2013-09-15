@@ -3,6 +3,7 @@
     package="com.tsunami"
     android:versionCode="1"
     android:versionName="1.0" >
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -13,14 +14,16 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <service android:name=".LocationService" />
+        <receiver android:name="LocationPublisher" >
+            <intent-filter>
+                <action android:name="com.tsunami.LocationBroadcast" />
+            </intent-filter>
+            
+        </receiver>
         <activity
             android:name="com.tsunami.ItemListActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.tsunami.ItemDetailActivity"
@@ -29,6 +32,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ItemListActivity" />
+        </activity>
+        <activity
+            android:name="com.tsunami.DebugActivity"
+            android:label="@string/title_activity_debug" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 
