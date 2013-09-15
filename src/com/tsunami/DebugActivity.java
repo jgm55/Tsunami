@@ -14,9 +14,8 @@ public class DebugActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_debug);
-		
-		Intent startLocationService = new Intent(this, LocationService.class);
-		startService(startLocationService);
+
+		LocationServiceScheduler.scheduleService(this);
 	}
 
 	@Override

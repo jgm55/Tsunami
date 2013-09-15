@@ -25,12 +25,11 @@ public class LocationService extends Service implements LocationListener {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.d(TAG, "LocationService started.");
 		locationManager = (LocationManager) getApplicationContext()
 				.getSystemService(Context.LOCATION_SERVICE);
 
-		Time now = new Time();
-		now.setToNow();
-		nowInMillis = now.toMillis(false);
+		nowInMillis = System.currentTimeMillis();
 
 		broadcastBestLocation();
 
@@ -89,6 +88,7 @@ public class LocationService extends Service implements LocationListener {
 		intent.putExtra("Latitude", location.getLatitude());
 		intent.putExtra("Longitude", location.getLongitude());
 		intent.putExtra("Accuracy", location.getAccuracy());
+		Log.d(TAG, "Sending broadcast");
 		sendBroadcast(intent);
 		stopListening();
 	}
