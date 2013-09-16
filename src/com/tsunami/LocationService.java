@@ -1,6 +1,7 @@
 package com.tsunami;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -8,7 +9,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.text.format.Time;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -31,24 +31,25 @@ public class LocationService extends Service implements LocationListener {
 
 		nowInMillis = System.currentTimeMillis();
 
-		broadcastBestLocation();
+		publishBestLocation();
 
 		// We want this service to continue running until it is explicitly
 		// stopped, so return sticky.
 		return START_STICKY;
 	}
 
-	private void broadcastBestLocation() {
+	private void publishBestLocation() {
 		showToast("getting best location estimate");
 		Location networkLastKnown = locationManager
 				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 		Location gpsLastKnown = locationManager
 				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-		showToast(networkLastKnown.toString());
 		if (isLocationReliable(networkLastKnown, nowInMillis)) {
-			mySendBroadcast(networkLastKnown);
+			showToast("Using cached network location.");
+			publishToServer(networkLastKnown);
 		} else if (isLocationReliable(gpsLastKnown, nowInMillis)) {
-			mySendBroadcast(gpsLastKnown);
+			showToast("Using cached gps location.");
+			publishToServer(gpsLastKnown);
 		} else {
 			showToast("Last known location not accurate, listening for location updates");
 			listenForLocationUpdates();
@@ -81,15 +82,8 @@ public class LocationService extends Service implements LocationListener {
 	}
 
 	// Sends off broadcast with location & stops service.
-	private void mySendBroadcast(Location location) {
-		Intent intent = new Intent();
-		intent.setAction("com.tsunami.LocationBroadcast");
-		intent.putExtra("Location", location.toString());
-		intent.putExtra("Latitude", location.getLatitude());
-		intent.putExtra("Longitude", location.getLongitude());
-		intent.putExtra("Accuracy", location.getAccuracy());
-		Log.d(TAG, "Sending broadcast");
-		sendBroadcast(intent);
+	private void publishToServer(Location location) {
+		LocationPublisher.publish(location);
 		stopListening();
 	}
 
@@ -107,9 +101,9 @@ public class LocationService extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
-		if (location.getAccuracy() < MIN_ACCURACY) {
-			mySendBroadcast(location);
-		}
+		if ((int) location.getAccuracy() < MIN_ACCURACY) {
+			publishToServer(location);
+		} else
 		showToast("Location found but not accurate. Accuracy: "
 				+ location.getAccuracy());
 	}
@@ -130,6 +124,21 @@ public class LocationService extends Service implements LocationListener {
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	// Returns true on success, false on fail.
+	static class LocationPublisher{
+		private final String TAG = getClass().toString();
+
+		private static boolean publish(Location location){
+			String username = getUsername();
+			return false;
+			
+		}
+		
+		private static String getUsername(){
+			return "";
+		}
 	}
 
 }

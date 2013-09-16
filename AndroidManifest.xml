@@ -15,12 +15,6 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <service android:enabled="true" android:name=".LocationService" />
-        <receiver android:name="LocationPublisher" >
-            <intent-filter>
-                <action android:name="com.tsunami.LocationBroadcast" />
-            </intent-filter>
-            
-        </receiver>
         <activity
             android:name="com.tsunami.ItemListActivity"
             android:label="@string/app_name" >

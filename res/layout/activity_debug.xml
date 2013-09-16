@@ -8,10 +8,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DebugActivity" >
 
-    <TextView
-        android:id="@+id/debug_message"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/start_tsunami_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
+        android:text="@string/start_tsunami" />
+    <Button
+        android:id="@+id/debug_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/get_location"
+        android:layout_below="@id/start_tsunami_button" />
+    <ListView
+        android:id="@+id/debug_list"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/debug_button" />
 
 </RelativeLayout>
