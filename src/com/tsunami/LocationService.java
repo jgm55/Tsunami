@@ -1,7 +1,6 @@
 package com.tsunami;
 
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -57,6 +56,7 @@ public class LocationService extends Service implements LocationListener {
 	}
 
 	private void listenForLocationUpdates() {
+		showToast("Checking for active location services.");
 		if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
 			locationManager.requestLocationUpdates(
 					LocationManager.NETWORK_PROVIDER, MIN_TIME, MIN_DISTANCE,
@@ -83,6 +83,7 @@ public class LocationService extends Service implements LocationListener {
 
 	// Sends off broadcast with location & stops service.
 	private void publishToServer(Location location) {
+		showToast("Publishing location.");
 		LocationPublisher.publish(location);
 		stopListening();
 	}
@@ -101,6 +102,7 @@ public class LocationService extends Service implements LocationListener {
 
 	@Override
 	public void onLocationChanged(Location location) {
+		showToast("Location found, checking for accuracy.");
 		if ((int) location.getAccuracy() < MIN_ACCURACY) {
 			publishToServer(location);
 		} else

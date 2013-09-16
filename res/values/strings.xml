@@ -8,5 +8,13 @@
     <string name="hello_world">Hello world!</string>
     <string name="get_location">Get Location</string>
     <string name="start_tsunami">Start Tsunami!</string>
-
+    <string-array name="top_views">
+        <item >Debug</item>
+        <item >Stats</item>
+    </string-array>
+    <string name="drawer_open">Open Nav</string> 
+    <string name="drawer_close">Close Nav</string>
+    <color name="drawer_item_activated_color">#99CCFF</color>
+    <color name="drawer_item_inactive_color">#FFFFFF</color>
+    
 </resources>
