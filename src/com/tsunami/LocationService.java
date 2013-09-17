@@ -14,9 +14,11 @@ import android.widget.Toast;
 public class LocationService extends Service implements LocationListener {
 	private final String TAG = this.getClass().toString();
 	private static final int TEN_MINUTES = 1000 * 60 * 10;
+	/*
+	 * MIN_TIME and MIN_DISTANCE are 0 to get constant updates until accuracy
+	 * requirement is satisfied (MIN_ACCURACY).
+	 */
 	private static final int MIN_ACCURACY = 150;
-	// MIN_TIME and MIN_DISTANCE are 0 to get constant updates until accuracy
-	// requirement is satisfied (MIN_ACCURACY).
 	private final long MIN_TIME = 0;
 	private final float MIN_DISTANCE = 0;
 	long nowInMillis = 0;
@@ -106,8 +108,8 @@ public class LocationService extends Service implements LocationListener {
 		if ((int) location.getAccuracy() < MIN_ACCURACY) {
 			publishToServer(location);
 		} else
-		showToast("Location found but not accurate. Accuracy: "
-				+ location.getAccuracy());
+			showToast("Location found but not accurate. Accuracy: "
+					+ location.getAccuracy());
 	}
 
 	@Override
@@ -127,18 +129,18 @@ public class LocationService extends Service implements LocationListener {
 		// TODO Auto-generated method stub
 
 	}
-	
+
 	// Returns true on success, false on fail.
-	static class LocationPublisher{
+	static class LocationPublisher {
 		private final String TAG = getClass().toString();
 
-		private static boolean publish(Location location){
+		private static boolean publish(Location location) {
 			String username = getUsername();
 			return false;
-			
+
 		}
-		
-		private static String getUsername(){
+
+		private static String getUsername() {
 			return "";
 		}
 	}
